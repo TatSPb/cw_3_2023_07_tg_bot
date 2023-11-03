@@ -32,8 +32,8 @@ public class TelegramBotService {
         }
     }
 
-    public void sendMessage(long chatId, String text) {
-        sendMessage(chatId, text, null);
+    public void sendMessage(long chat_id, String text) {
+        sendMessage(chat_id, text, null);
     }
 
 

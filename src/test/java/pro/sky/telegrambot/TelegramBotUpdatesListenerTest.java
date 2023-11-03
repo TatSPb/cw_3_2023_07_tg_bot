@@ -74,7 +74,7 @@ public class TelegramBotUpdatesListenerTest {
 
         Assertions.assertThat(actual.getParameters().get("chat_id")).isEqualTo(123L);
         Assertions.assertThat(actual.getParameters().get("text")).isEqualTo(
-                "Для планирования задачи отправьте её в формате: *01.01.2022 20:00 Сделать домашнюю работу*");
+                "To schedule a task send it in the next format: *01.01.2022 20:00 Homework to do*");
         Assertions.assertThat(actual.getParameters().get("parse_mode")).isEqualTo(ParseMode.Markdown.name());
     }
 
@@ -93,7 +93,7 @@ public class TelegramBotUpdatesListenerTest {
         SendMessage actual = argumentCaptor.getValue();
 
         Assertions.assertThat(actual.getParameters().get("chat_id")).isEqualTo(123L);
-        Assertions.assertThat(actual.getParameters().get("text")).isEqualTo("Неверный формат сообщения");
+        Assertions.assertThat(actual.getParameters().get("text")).isEqualTo("Invalid message format");
     }
 
     @Test
@@ -110,7 +110,7 @@ public class TelegramBotUpdatesListenerTest {
         SendMessage actual = argumentCaptor.getValue();
 
         Assertions.assertThat(actual.getParameters().get("chat_id")).isEqualTo(123L);
-        Assertions.assertThat(actual.getParameters().get("text")).isEqualTo("Неверный формат сообщения");
+        Assertions.assertThat(actual.getParameters().get("text")).isEqualTo("Invalid message format");
     }
 
     @Test
@@ -141,11 +141,11 @@ public class TelegramBotUpdatesListenerTest {
 
         Assertions.assertThat(actualLocalDateTime)
                 .isEqualTo(LocalDateTime.of(2023, Month.NOVEMBER, 03, 20, 00));
-        Assertions.assertThat(actualString).isEqualTo("task");
+        Assertions.assertThat(actualString).isEqualTo(" task");
         Assertions.assertThat(actualLong).isEqualTo(123L);
 
         Assertions.assertThat(actualSendMessage.getParameters().get("chat_id")).isEqualTo(123L);
-        Assertions.assertThat(actualSendMessage.getParameters().get("text")).isEqualTo("Ваша задача успешно запланирована");
+        Assertions.assertThat(actualSendMessage.getParameters().get("text")).isEqualTo("Your task has been successfully scheduled");
 
     }
 

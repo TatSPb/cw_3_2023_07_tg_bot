@@ -26,8 +26,8 @@ public class NotificationTaskNotifier {
     public void task(){
         notificationTaskRepository.findAllByDateTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
         ).forEach(notificationTask -> {
-            telegramBotService.sendMessage(notificationTask.getChatId(),
-                    "Вы просили напомнить о сообщении: " + notificationTask.getText()
+            telegramBotService.sendMessage(notificationTask.getChat_id(),
+                    "You asked to be reminded of a message: " + notificationTask.getText()
             );
             notificationTaskRepository.delete(notificationTask);
         });

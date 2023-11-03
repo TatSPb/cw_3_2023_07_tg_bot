@@ -23,9 +23,12 @@ import java.util.regex.*;
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-    private static final Pattern PATTERN = Pattern.compile(
+
+//    private static final Pattern pattern = Pattern.compile("([0-9\\.\\:\\s]{16})(\\s)([\\W+]+)");
+        private static final Pattern PATTERN = Pattern.compile(
             "(\\d{1,2}\\.\\d{1,2}\\.\\d{4} \\d{1,2}:\\d{2})([A-zА-я}\\d;\\s!?:,'.]+)");
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy HH:mm ");
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy HH:mm");
 
     private TelegramBot telegramBot;
     private final NotificationTaskService notificationTaskService;
@@ -48,7 +51,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            Long chatId = update.message().chat().id();
+            Long chat_id = update.message().chat().id();
             Message message = update.message();
             String text = message.text();
             LocalDateTime dateTime;
@@ -57,20 +60,21 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 Matcher matcher = PATTERN.matcher(text);
                 if (text.equals("/start")) {
                     telegramBotService.sendMessage(
-                            chatId,
-                            "Для планирования задачи отправьте её в формате: *01.01.2022 20:00 Сделать домашнюю работу*",
+                            chat_id,
+//                            "Для планирования задачи отправьте её в формате: *01.01.2022 20:00 Сделать домашнюю работу*",
+                            "To schedule a task send it in the next format: *01.01.2022 20:00 Homework to do*",
                             ParseMode.Markdown
                     );
                 } else if (matcher.matches() && (dateTime = parse(matcher.group(1))) != null) {
-                    notificationTaskService.save(chatId, matcher.group(2), dateTime);
-                    telegramBotService.sendMessage(chatId, "Ваша задача успешно запланирована");
+                    notificationTaskService.save(chat_id, matcher.group(2), dateTime);
+                    telegramBotService.sendMessage(chat_id, "Your task has been successfully scheduled");
                 } else {
-                    telegramBotService.sendMessage(chatId, "Неверный формат сообщения");
+                    telegramBotService.sendMessage(chat_id, "Invalid message format");
                 }
             } else {
                 telegramBotService.sendMessage(
-                        chatId,
-                        "Отправьте команду /start или сообщение для планирования задачи"
+                        chat_id,
+                        "Send the /start command or the other message to schedule a task"
                 );
             }
         });

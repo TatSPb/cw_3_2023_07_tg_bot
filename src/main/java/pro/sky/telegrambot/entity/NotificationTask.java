@@ -15,14 +15,14 @@ public class NotificationTask {
     private String text;
 
     @Column(name = "chat_id")
-    private Long chatId;
+    private Long chat_id;
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
-    public NotificationTask(String text, Long chatId, LocalDateTime dateTime) {
+    public NotificationTask(String text, Long chat_id, LocalDateTime dateTime) {
         this.text = text;
-        this.chatId = chatId;
+        this.chat_id = chat_id;
         this.dateTime = dateTime;
     }
 
@@ -42,12 +42,12 @@ public class NotificationTask {
         this.text = text;
     }
 
-    public Long getChatId() {
-        return chatId;
+    public Long getChat_id() {
+        return chat_id;
     }
 
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
+    public void setChat_id(Long chat_id) {
+        this.chat_id = chat_id;
     }
 
     public LocalDateTime getDateTime() {
